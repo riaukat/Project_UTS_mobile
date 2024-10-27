@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Daftar Matkul</string>
+    <string name="english3">Bahasa Inggris 3</string>
+    <string name="datamining">Data Mining</string>
+    <string name="gkv">Grafika Komputer dan Visualisasi</string>
+    <string name="infbigdata">Infrastruktur Big Data</string>
+    <string name="manpro">Manajemen Proyek</string>
+    <string name="pbm">Pemrograman Berbasis Mobile</string>
+    <string name="bindo">Pendidikan Bahasa Indonesia</string>
+    <string name="prakgkv">Praktikum Grafika Komputer dan Visualisasi</string>
+    <string name="prakinfbig">Praktikum Infrastruktur Big Data</string>
+    <string name="prakpbm">Praktikum Pemrograman Berbasis Mobile</string>
+    <string name="ppaw">Proyek Pengembangan Aplikasi Web</string>
+    <string name="spk">Sistem Pendukung Keputusan</string>
+    <string name="expand_button_content_description">See more or less information about a dog.</string>
+</resources>
