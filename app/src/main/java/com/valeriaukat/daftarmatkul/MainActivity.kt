@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() { // Kelas utama yang mewarisi Componen
                             }
                             composable("detail/{id}") { backStackEntry -> // Menavigasi ke detail mata kuliah
                                 val mataKuliahId = backStackEntry.arguments?.getString("id") // Mengambil ID mata kuliah dari argumen
-                                DetailScreen(mataKuliahId) // Menampilkan layar detail
+                                DetailScreen(mataKuliahId, navController) // Menampilkan layar detail
                             }
                         }
                     }
@@ -84,23 +85,55 @@ fun MataKuliahList(mataKuliahList: List<Daftar>, navController: NavController, m
 }
 
 @Composable
-fun DetailScreen(mataKuliahId: String?) { // Fungsi untuk menampilkan detail mata kuliah
-    val mataKuliah = mataKuliahId?.let { id -> // Mencari mata kuliah berdasarkan ID
+fun DetailScreen(mataKuliahId: String?, navController: NavController) { // Tambahkan navController sebagai parameter
+    val mataKuliah = mataKuliahId?.let { id ->
         Datasource().loadMataKuliah().find { it.id.toString() == id }
     }
 
-    Column(modifier = Modifier.padding(16.dp)) { // Mengatur layout kolom untuk detail
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize(), // Memastikan kolom memenuhi ukuran layar
+        verticalArrangement = Arrangement.SpaceBetween // Mengatur ruang di antara elemen
+    ) {
+        Column(
+            modifier = Modifier.weight(1f), // Memberikan ruang bagi informasi mata kuliah
+            horizontalAlignment = Alignment.Start // Rata kiri untuk informasi mata kuliah
+        ) {
         Text(
-            text = mataKuliah?.let { LocalContext.current.getString(it.stringResourceId) } ?: "Unknown", // Menampilkan nama mata kuliah
-            style = MaterialTheme.typography.headlineMedium // Mengatur gaya teks
+            text = mataKuliah?.let { LocalContext.current.getString(it.stringResourceId) } ?: "Unknown",
+            style = MaterialTheme.typography.headlineMedium
         )
-        Spacer(modifier = Modifier.height(8.dp)) // Menambahkan spasi antara elemen
-        mataKuliah?.let { // Jika mata kuliah ditemukan
-            Text(text = "Kode: ${it.kode}", style = MaterialTheme.typography.bodyMedium) // Menampilkan kode mata kuliah
-            Text(text = "Jam: ${it.jam}", style = MaterialTheme.typography.bodyMedium) // Menampilkan jam mata kuliah
-            Text(text = "Dosen: ${it.dosen}", style = MaterialTheme.typography.bodyMedium) // Menampilkan dosen pengampu
+        Spacer(modifier = Modifier.height(8.dp))
+        mataKuliah?.let {
+            Text(text = "Kode: ${it.kode}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "Jam: ${it.jam}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "Dosen: ${it.dosen}", style = MaterialTheme.typography.bodyMedium)
         } ?: run {
-            Text(text = "No details available", style = MaterialTheme.typography.bodyMedium) // Pesan jika tidak ada detail
+            Text(text = "No details available", style = MaterialTheme.typography.bodyMedium)
+        }}
+
+        // Spacer untuk mendorong tombol kembali ke bawah
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Tombol kembali
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally, // Rata tengah hanya untuk tombol kembali
+            modifier = Modifier.fillMaxWidth() // Memastikan kolom memenuhi lebar
+        ) {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.panah),
+                    contentDescription = stringResource(R.string.back_button_desc)
+                )
+            }
+
+            // Deskripsi di bawah tombol kembali
+            Text(
+                text = "Kembali ke Menu",
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(top = 2.dp) // Jarak antara ikon dan teks
+            )
         }
     }
 }

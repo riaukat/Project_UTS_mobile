@@ -13,4 +13,5 @@
     <string name="ppaw">Proyek Pengembangan Aplikasi Web</string>
     <string name="spk">Sistem Pendukung Keputusan</string>
     <string name="expand_button_content_description">See more or less information about a dog.</string>
+    <string name="back_button_desc">Kembali</string>
 </resources>
